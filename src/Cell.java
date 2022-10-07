@@ -5,12 +5,35 @@ public class Cell {
     private final CellType cellType;
     private final int number;
     private boolean isFree;
+    private int MAX_LENGTH;
+    private int length = 1;
     private final List<Animal> animals = new ArrayList<>();
 
     public Cell(CellType cellType, int number) {
         this.cellType = cellType;
+        if (cellType == CellType.SINGLE) {
+            MAX_LENGTH = 1;
+        }
+        if (cellType == CellType.DOUBLE) {
+            MAX_LENGTH = 2;
+        }
+        if (cellType == CellType.BIG_DOUBLE) {
+            MAX_LENGTH = 3;
+        }
         this.number = number;
-        this.isFree = true; //???????????????????????????
+        this.isFree = true;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public int getMAX_LENGTH() {
+        return MAX_LENGTH;
     }
 
     public CellType getCellType() {
@@ -21,8 +44,8 @@ public class Cell {
         return isFree;
     }
 
-    public void setFree(boolean free) {
-        isFree = free;
+    public void setFree() {
+        this.isFree = length <= MAX_LENGTH;
     }
 
     public int getNumber() {

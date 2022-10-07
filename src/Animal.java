@@ -35,6 +35,6 @@ public class Animal {
         return "Тип животного: " + animalType +
                 ", имя: " + name  +
                 ", тип клетки: " + typeOfCell +
-                ", номер клетки:" + cell.getNumber();
+                ", номер клетки: " + cell.getNumber();
     }
 }

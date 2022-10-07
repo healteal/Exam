@@ -25,7 +25,8 @@ public class Zoo {
             animal.setCell(temp);
             this.animals.add(animal);
             Objects.requireNonNull(temp).addAnimal(animal);
-            temp.setFree(false);
+            temp.setLength(temp.getLength() + 1);
+            temp.setFree();
             cells.add(temp);
             System.out.println(animal.getAnimalType()
                     + " " + animal.getName()
@@ -52,7 +53,8 @@ public class Zoo {
                     .findAny().orElse(null);
             cells.remove(tempCell);
             animals.remove(animal);
-            Objects.requireNonNull(tempCell).setFree(true);
+            Objects.requireNonNull(tempCell).setLength(tempCell.getLength() - 1);
+            Objects.requireNonNull(tempCell).setFree();
             tempCell.removeAnimalFromCell(animal.getName());
             cells.add(tempCell);
         } else {

@@ -52,21 +52,26 @@ public class General {
                     System.out.println("Выберите тип клетки: одиночная, двойная, тройная.");
                     CellType typeCell;
                     String cellType = inputString();
-                    switch (Objects.requireNonNull(cellType)) {
-                        case "одиночная": {
-                            typeCell = CellType.SINGLE;
-                            break;
+                    outPut:
+                    while (true) {
+                        switch (Objects.requireNonNull(cellType)) {
+                            case "одиночная": {
+                                typeCell = CellType.SINGLE;
+                                break outPut;
+                            }
+                            case "двойная": {
+                                typeCell = CellType.DOUBLE;
+                                break outPut;
+                            }
+                            case "тройная": {
+                                typeCell = CellType.BIG_DOUBLE;
+                                break outPut;
+                            }
+                            default: {
+                                System.out.println("Неверный ввод.");
+                                break;
+                            }
                         }
-                        case "двойная": {
-                            typeCell = CellType.DOUBLE;
-                            break;
-                        }
-                        case "тройная": {
-                            typeCell = CellType.BIG_DOUBLE;
-                            break;
-                        }
-                        default:
-                            throw new IllegalStateException("Unexpected value: " + cellType);
                     }
                     zoo.showFreeCells(typeCell);
                     break;
