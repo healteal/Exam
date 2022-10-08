@@ -11,20 +11,12 @@ public class Zoo {
     }
 
     public void addAnimal(Animal animal) {
-        boolean isExist = cells
-                .stream()
-                .filter(Cell::isFree)
-                .anyMatch(x -> x.getCellType() == animal.getTypeOfCell());
-        if (isExist) {
-            Cell temp = cells
-                    .stream()
-                    .filter(Cell::isFree)
-                    .filter(x -> x.getCellType() == animal.getTypeOfCell())
-                    .findAny().orElse(null);
+        if (isExist(animal)) {
+            Cell temp = getCell(animal);
             cells.remove(temp);
             animal.setCell(temp);
             this.animals.add(animal);
-            Objects.requireNonNull(temp).addAnimal(animal);
+            Objects.requireNonNull(temp).addAnimalToCell(animal);
             temp.setLength(temp.getLength() + 1);
             temp.setFree();
             cells.add(temp);
@@ -38,19 +30,25 @@ public class Zoo {
         }
     }
 
-    public void removeAnimal(String name) {
-        boolean isPresent = this.animals
+    private Cell getCell(Animal animal) {
+        return cells
                 .stream()
-                .anyMatch(x -> x.getName().equals(name));
-        if (isPresent) {
-            Animal animal = this.animals
-                    .stream()
-                    .filter(x -> x.getName().equals(name))
-                    .findAny().orElse(null);
-            Cell tempCell = cells
-                    .stream()
-                    .filter(x -> x.equals(Objects.requireNonNull(animal).getCell()))
-                    .findAny().orElse(null);
+                .filter(Cell::isFree)
+                .filter(x -> x.getCellType() == animal.getTypeOfCell())
+                .findAny().orElse(null);
+    }
+
+    private boolean isExist(Animal animal) {
+        return cells
+                .stream()
+                .filter(Cell::isFree)
+                .anyMatch(x -> x.getCellType() == animal.getTypeOfCell());
+    }
+
+    public void removeAnimal(String name) {
+        if (isPresent(name)) {
+            Animal animal = getAnimal(name);
+            Cell tempCell = getTempCell(animal);
             cells.remove(tempCell);
             animals.remove(animal);
             Objects.requireNonNull(tempCell).setLength(tempCell.getLength() - 1);
@@ -60,6 +58,26 @@ public class Zoo {
         } else {
             System.out.println("Животного с таким именем не было найдено\n");
         }
+    }
+
+    private Cell getTempCell(Animal animal) {
+        return cells
+                .stream()
+                .filter(x -> x.equals(Objects.requireNonNull(animal).getCell()))
+                .findAny().orElse(null);
+    }
+
+    private Animal getAnimal(String name) {
+        return this.animals
+                .stream()
+                .filter(x -> x.getName().equals(name))
+                .findAny().orElse(null);
+    }
+
+    private boolean isPresent(String name) {
+        return this.animals
+                .stream()
+                .anyMatch(x -> x.getName().equals(name));
     }
 
     public void showAnimalInCell(int numberOfCell) {
