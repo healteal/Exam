@@ -43,17 +43,17 @@ public class General {
                     System.out.println("Введите номер клетки:");
                     try {
                         zoo.showAnimalInCell(Integer.parseInt(reader.readLine()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (NumberFormatException | IOException e) {
+                        System.out.println("Неверный ввод\n");
                     }
                     break;
                 }
                 case 4: {
-                    System.out.println("Выберите тип клетки: одиночная, двойная, тройная.");
                     CellType typeCell;
-                    String cellType = inputString();
                     outPut:
                     while (true) {
+                    System.out.println("Выберите тип клетки: одиночная, двойная, тройная.");
+                    String cellType = inputString();
                         switch (Objects.requireNonNull(cellType)) {
                             case "одиночная": {
                                 typeCell = CellType.SINGLE;
@@ -108,49 +108,55 @@ public class General {
     }
 
     static Animal createAnimal() {
+        AnimalType animalType;
+        outLoop:
+        while (true) {
         System.out.println("Выберите тип животного: слон, медведь или лев");
         String type = inputString();
-        AnimalType animalType;
         switch (Objects.requireNonNull(type)) {
             case "слон": {
                 animalType = AnimalType.ELEPHANT;
-                break;
+                break outLoop;
             }
             case "медведь": {
                 animalType = AnimalType.BEAR;
-                break;
+                break outLoop;
             }
             case "лев": {
                 animalType = AnimalType.LION;
-                break;
+                break outLoop;
             }
             default: {
-                System.out.println("Неверный ввод");
-                return null;
+                System.out.println("Неверный ввод\n");
+                break;
             }
+        }
         }
         System.out.println("Введите имя животного:");
         String name = inputString();
         CellType cellTypeSet;
         String typeCell;
+        outLoop:
+        while (true) {
             System.out.println("Выберите тип клетки: одиночная, двойная, тройная.");
             typeCell = inputString();
             switch (Objects.requireNonNull(typeCell)) {
                 case "одиночная": {
                     cellTypeSet = CellType.SINGLE;
-                    break;
+                    break outLoop;
                 }
                 case "двойная": {
                     cellTypeSet = CellType.DOUBLE;
-                    break;
+                    break outLoop;
                 }
                 case "тройная": {
                     cellTypeSet = CellType.BIG_DOUBLE;
-                    break;
+                    break outLoop;
                 }
                 default: {
-                    System.out.println("Неверный ввод");
-                return null;
+                    System.out.println("Неверный ввод\n");
+                    break;
+                }
             }
         }
         return new Animal(animalType, name, cellTypeSet);
